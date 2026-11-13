@@ -35,7 +35,7 @@ Portfolio personal de una sola pantalla. Next.js (App Router) + Sanity, pensado 
 
 - **Sanity:** proyecto "Portfolio", ID `kumaz2g0`, dataset público `production`. CORS permitido para `localhost:3000`, `localhost:3210` y `https://elsadealfonso.vercel.app`.
 - **Vercel:** proyecto `portfolio`, publicado en https://elsadealfonso.vercel.app y conectado al repo público `edealfonso/portfolio`: cada push a `main` se publica solo. `vercel.json` fija el framework a Next.js porque Vercel lo detectaba como Sanity Studio (por `sanity.cli.ts`) y el build fallaba.
-- **Formulario de contacto:** Web3Forms, envío desde el cliente. La clave va en `NEXT_PUBLIC_WEB3FORMS_KEY` (en `.env.local` y en Vercel como valor público, tipo Config); sin ella el botón de enviar queda desactivado. Los mensajes llegan al Gmail de Elsa.
+- **Formulario de contacto:** Web3Forms, envío desde el cliente. La clave va en `NEXT_PUBLIC_WEB3FORMS_KEY` (en `.env.local` y en Vercel como valor público, tipo Config); sin ella el botón de enviar queda desactivado. Los mensajes llegan al Gmail de Elsa (confirmado el 13-nov-2026).
 - Variables en `.env.local` (plantilla en `.env.local.example`).
 
 ## Comandos
@@ -59,6 +59,5 @@ Portfolio personal de una sola pantalla. Next.js (App Router) + Sanity, pensado 
 
 ## Pendiente
 
-1. Prueba del formulario de contacto desde https://elsadealfonso.vercel.app: Elsa aún no ha confirmado que le llegue el mensaje.
-2. Probar el filtro y los títulos largos (Madri+D, No és culpa meva) en móvil.
-3. Si hay dominio propio: añadirlo en Vercel y a CORS de Sanity.
+1. Probar el filtro y los títulos largos (Madri+D, No és culpa meva) en móvil.
+2. Si hay dominio propio: añadirlo en Vercel y a CORS de Sanity.
