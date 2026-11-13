@@ -59,6 +59,22 @@ button {
   animation: fade 1s ease both;
 }
 
+/* Solid behind the header content, fading out below it, so the list scrolling
+   underneath never overlaps the title or the links. */
+.top::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: 0 0 -36px;
+  pointer-events: none;
+  background: linear-gradient(
+    to bottom,
+    var(--bg) 0,
+    var(--bg) calc(100% - 36px),
+    color-mix(in srgb, var(--bg) 0%, transparent)
+  );
+}
+
 .me {
   font-size: 17px;
   font-weight: 300;
