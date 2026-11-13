@@ -27,7 +27,7 @@ Portfolio personal de una sola pantalla. Next.js (App Router) + Sanity, pensado 
 
 - `app/(site)/` — la web: `page.tsx` (carga datos), `Portfolio.tsx` (todo el cliente), `globals.css`.
 - `app/(studio)/studio/[[...tool]]/` — Sanity Studio embebido en `/studio`, con su propio layout raíz.
-- `sanity/schema.ts` — tipos `project` y `about` (documento único con id `about`).
+- `sanity/schema.ts` — tipos `project`, `technology` y `about` (documento único con id `about`).
 - `sanity/data.ts` — consulta GROQ con `"use cache"`; si no hay proyectos en Sanity, devuelve datos de ejemplo.
 - `sanity.config.ts` lleva `"use client"`: sin eso el build falla al importar `sanity` desde un componente de servidor.
 
@@ -53,6 +53,7 @@ Portfolio personal de una sola pantalla. Next.js (App Router) + Sanity, pensado 
 - Capturas: todos los proyectos tienen imagen (JPEG de 1600 px, las de las webs sacadas de `.../images/usados` en Dropbox). Los vídeos de QFactory y Synth Dreams van acelerados 3x.
 - Orden de proyectos: se arrastra en la lista "Projects" del Studio (plugin `@sanity/orderable-document-list`, campo oculto `orderRank`; ya no existe `order`).
 - Case Study: campo opcional de texto rico en cada proyecto, solo para uso propio (la web no lo lee). Cargado en Nemuru; el resto los carga Claude cuando Elsa pase las notas, ella lo hará cuando pueda (no insistir).
+- Tecnologías: son documentos `technology` (lista "Technologies" del Studio, sin nombres repetidos aunque cambien las mayúsculas). Los proyectos las enlazan en `keyTechnologies` y `technologies`; la web lee el nombre. Migrado el 13-nov-2026 (45 tecnologías, 12 proyectos) con `sanity/migrate-technologies.ts` (no hace falta repetirlo). Los campos antiguos `keyTech` y `stack` siguen ocultos como copia de seguridad y la consulta los usa de respaldo; se pueden borrar cuando se compruebe que todo va bien.
 - Ocultar un proyecto: **Unpublish** en el Studio (pasa a borrador y la web no lo muestra); **Publish** lo devuelve.
 - CV del About: `CV 26 fs2 - sin datos comprometidos.pdf` (sin teléfono, subido por Elsa el 13-nov-2026).
 - Móvil: al filtrar la página vuelve arriba (scroll suave) y el header lleva un degradado de fondo para que la lista no se solape al hacer scroll. Filtro y títulos largos probados por Elsa el 13-nov-2026.
