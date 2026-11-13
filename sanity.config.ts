@@ -1,5 +1,6 @@
 "use client";
 
+import { orderableDocumentListDeskItem } from "@sanity/orderable-document-list";
 import { defineConfig } from "sanity";
 import { structureTool } from "sanity/structure";
 import { dataset, projectId } from "./sanity/env";
@@ -14,11 +15,16 @@ export default defineConfig({
   schema: { types: schemaTypes },
   plugins: [
     structureTool({
-      structure: (S) =>
+      structure: (S, context) =>
         S.list()
           .title("Content")
           .items([
-            S.documentTypeListItem("project").title("Projects"),
+            orderableDocumentListDeskItem({
+              type: "project",
+              title: "Projects",
+              S,
+              context,
+            }),
             // About is a single document with a fixed id.
             S.listItem()
               .title("About")

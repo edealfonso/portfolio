@@ -29,7 +29,7 @@ export type About = {
 export type SiteData = { projects: Project[]; about: About };
 
 const query = `{
-  "projects": *[_type == "project"] | order(order asc, _createdAt desc) {
+  "projects": *[_type == "project"] | order(orderRank asc, _createdAt desc) {
     _id, title, year, kind, keyTech, stack, summary, role, url, companyUrl,
     "video": video.asset->url,
     "image": image.asset->url

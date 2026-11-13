@@ -1,3 +1,4 @@
+import { orderRankField, orderRankOrdering } from "@sanity/orderable-document-list";
 import { defineField, defineType } from "sanity";
 
 export const project = defineType({
@@ -10,11 +11,8 @@ export const project = defineType({
       type: "string",
       validation: (r) => r.required(),
     }),
-    defineField({
-      name: "order",
-      type: "number",
-      description: "Position in the list. Lower numbers come first.",
-    }),
+    // Drag to reorder in the Studio list; hidden field.
+    orderRankField({ type: "project" }),
     defineField({
       name: "year",
       description: 'A year ("2024") or a range ("2022–2024").',
@@ -106,13 +104,7 @@ export const project = defineType({
       type: "image",
     }),
   ],
-  orderings: [
-    {
-      title: "List order",
-      name: "order",
-      by: [{ field: "order", direction: "asc" }],
-    },
-  ],
+  orderings: [orderRankOrdering],
   preview: { select: { title: "title", subtitle: "year", media: "image" } },
 });
 
