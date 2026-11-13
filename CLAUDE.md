@@ -51,14 +51,14 @@ Portfolio personal de una sola pantalla. Next.js (App Router) + Sanity, pensado 
 - Textos: breves, técnicos pero cercanos, en inglés. Donde Elsa no hizo el 100 % se anota el porcentaje (Barabási 90 %, Unfinished 85 %, No és culpa meva 80 %, la Mochila de Madri+D 95 %).
 - Medios: marco 16:9 que recorta por abajo. Vídeos sin audio, 960 px de ancho, 24 fps, de pocos MB; Elsa los graba y se revisa que no salgan datos personales ni avisos (cookies, barra de Wayback). GeoCool-In, Nemuru, Madri+D y No és culpa meva usan imagen (logo o captura) en vez de vídeo. GeoCool-In no tiene link ni vídeo mientras se corrige su web.
 - Capturas: todos los proyectos tienen imagen (JPEG de 1600 px, las de las webs sacadas de `.../images/usados` en Dropbox). Los vídeos de QFactory y Synth Dreams van acelerados 3x.
-- Case Study: campo opcional de texto rico en cada proyecto, solo para uso propio (la web no lo lee). Cargado en Nemuru; el resto, pendiente de que Elsa pase sus notas.
+- Orden de proyectos: se arrastra en la lista "Projects" del Studio (plugin `@sanity/orderable-document-list`, campo oculto `orderRank`; ya no existe `order`).
+- Case Study: campo opcional de texto rico en cada proyecto, solo para uso propio (la web no lo lee). Cargado en Nemuru; el resto los carga Claude cuando Elsa pase las notas, ella lo hará cuando pueda (no insistir).
 - Ocultar un proyecto: **Unpublish** en el Studio (pasa a borrador y la web no lo muestra); **Publish** lo devuelve.
-- CV del About: el que subí es `CV 26 fs2.pdf`, que lleva el teléfono. Elsa lo quita ella y lo vuelve a subir desde el Studio.
+- CV del About: `CV 26 fs2 - sin datos comprometidos.pdf` (sin teléfono, subido por Elsa el 13-nov-2026).
 - Favicon: el punto naranja (`app/icon.svg`, `favicon.ico`, `apple-icon.png`).
 
 ## Pendiente
 
 1. Prueba del formulario de contacto desde https://elsadealfonso.vercel.app: Elsa aún no ha confirmado que le llegue el mensaje.
-2. Subir el CV sin teléfono (lo hace Elsa).
-3. Probar el filtro y los títulos largos (Madri+D, No és culpa meva) en móvil.
-4. Si hay dominio propio: añadirlo en Vercel y a CORS de Sanity.
+2. Probar el filtro y los títulos largos (Madri+D, No és culpa meva) en móvil.
+3. Si hay dominio propio: añadirlo en Vercel y a CORS de Sanity.
