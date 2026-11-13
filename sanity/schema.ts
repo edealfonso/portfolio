@@ -59,6 +59,28 @@ export const project = defineType({
     }),
     defineField({ name: "role", title: "My part", type: "text", rows: 3 }),
     defineField({
+      name: "caseStudy",
+      title: "Case Study",
+      description: "Long write-up for my own reference. Not shown on the site.",
+      type: "array",
+      of: [
+        {
+          type: "block",
+          styles: [
+            { title: "Normal", value: "normal" },
+            { title: "Heading", value: "h2" },
+            { title: "Subheading", value: "h3" },
+            { title: "Quote", value: "blockquote" },
+          ],
+          lists: [
+            { title: "Bullets", value: "bullet" },
+            { title: "Numbered", value: "number" },
+          ],
+        },
+        { type: "image", options: { hotspot: true } },
+      ],
+    }),
+    defineField({
       name: "url",
       title: "Link to the result",
       description: 'Shown as "Visit site". Only when what people see is my work.',
