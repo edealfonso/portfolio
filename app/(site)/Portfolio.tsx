@@ -4,9 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import type { About, Project } from "@/sanity/data";
 
 type Panel =
-  | { kind: "project"; index: number }
-  | { kind: "about" }
-  | { kind: "contact" };
+  { kind: "project"; index: number } | { kind: "about" } | { kind: "contact" };
 
 // Same condition as the touch / narrow media query in globals.css.
 const NO_HOVER = "(hover: none), (max-width: 720px)";
@@ -117,6 +115,17 @@ export default function Portfolio({
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
   }, []);
+
+  // The page behind a popup is blurred through a body class (see globals.css).
+  useEffect(() => {
+    document.body.classList.toggle("modal-open", open);
+    return () => document.body.classList.remove("modal-open");
+  }, [open]);
+
+  // Media shown (blurred) behind the popup: a project's screenshot, or the orb.
+  const backdropImage =
+    panel?.kind === "project" ? projects[panel.index]?.image : undefined;
+  const orbOn = panel?.kind === "about" || panel?.kind === "contact";
 
   return (
     <>
@@ -231,6 +240,23 @@ export default function Portfolio({
           if (e.target === e.currentTarget) close();
         }}
       >
+        {/* One backdrop that is always mounted, so its drift never restarts. */}
+        <div
+          className={`backdrop${backdropImage || orbOn ? " on" : ""}`}
+          aria-hidden
+        >
+          <div className="drift">
+            {backdropImage && (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img
+                key={panel?.kind === "project" ? panel.index : 0}
+                src={sized(backdropImage, 1200)}
+                alt=""
+              />
+            )}
+            <span className={`orb${orbOn ? " on" : ""}`} />
+          </div>
+        </div>
         {panel && (
           <div
             className="card"
@@ -488,9 +514,7 @@ function ContactCard({
             Message
             <textarea name="message" rows={4} required />
           </label>
-          <p className="privacy">
-            Your details are only used to reply to you.
-          </p>
+          <p className="privacy">Your details are only used to reply to you.</p>
           {/* Honeypot: real visitors never see or tick this. */}
           <input
             type="checkbox"

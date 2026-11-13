@@ -76,23 +76,27 @@ button {
 }
 
 .me {
-  font-size: 17px;
+  display: flex;
+  align-items: baseline;
+  font-size: 20px;
   font-weight: 300;
 }
 
+/* Sits on the text baseline, lifted to the middle of the capitals. */
 .dot {
-  display: inline-block;
-  width: 7px;
-  height: 7px;
-  margin-right: 10px;
+  flex: none;
+  width: 8px;
+  height: 8px;
+  margin-right: 12px;
   border-radius: 50%;
   background: var(--accent);
-  vertical-align: 1px;
+  transform: translateY(-3px);
 }
 
 .role {
-  margin-left: 14px;
+  margin-left: 16px;
   color: var(--mute);
+  transform: translateY(-2px);
 }
 
 .top nav {
@@ -230,7 +234,8 @@ main {
 
 .ttl {
   overflow: hidden;
-  padding-bottom: 0.08em;
+  padding-top: 1px;
+  padding-bottom: calc(0.08em - 1px);
   font-size: clamp(26px, 4.6vw, 66px);
   line-height: 1.08;
   letter-spacing: -0.02em;
@@ -325,7 +330,9 @@ main {
   box-shadow: 0 20px 50px rgba(0, 0, 0, 0.18);
   opacity: 0;
   pointer-events: none;
-  transition: opacity 0.25s;
+  transition:
+    opacity 0.25s,
+    filter 0.6s ease;
 }
 
 .stage.on {
@@ -398,9 +405,6 @@ main {
   align-items: center;
   justify-content: center;
   padding: 16px;
-  background: rgba(241, 240, 236, 0.72);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
@@ -409,16 +413,129 @@ main {
     visibility 0s 0.55s;
 }
 
+/* Light tint over the page: arrives after the page has blurred. */
+.veil::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(241, 240, 236, 0.72);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  pointer-events: none;
+}
+
 .veil.open {
   opacity: 1;
   visibility: visible;
   pointer-events: auto;
   transition:
-    opacity 0.55s ease,
+    opacity 0.1s ease,
     visibility 0s;
 }
 
+.veil.open::before {
+  opacity: 1;
+  transition: opacity 0.8s ease;
+}
+
+/* Step 1 of opening a popup: the page behind blurs. */
+.top,
+main {
+  transition: filter 0.6s ease;
+}
+
+body.modal-open .top,
+body.modal-open main,
+body.modal-open .stage {
+  filter: blur(40px);
+}
+
+/* Blurred media behind the popup. It hides the list; it is always mounted and
+   drifts all the time, so switching popups never restarts the movement. */
+.backdrop {
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  background: var(--bg);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.veil.open .backdrop.on {
+  opacity: 1;
+  transition: opacity 0.8s ease;
+}
+
+/* Very slow five-point star (pentagram) path. */
+.drift {
+  position: absolute;
+  inset: 0;
+  animation: drift-star 120s linear infinite;
+}
+
+.drift img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: blur(10px);
+  opacity: 0.65;
+  /* Zoomed in so the drift never shows an edge. */
+  transform: scale(1.7);
+  animation: bd-in 2.4s ease 0.4s backwards;
+}
+
+/* About / Contact: the favicon dot, enlarged. */
+.orb {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  filter: blur(10px);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.orb.on {
+  opacity: 0.65;
+  transition: opacity 2.4s ease 0.4s;
+}
+
+.orb::before {
+  content: "";
+  width: 86vmin;
+  height: 86vmin;
+  border-radius: 50%;
+  background: var(--accent);
+}
+
+/* Tall narrow screens: 86vmin would be a small dot on a long page. */
+@media (max-aspect-ratio: 1/1) {
+  .orb::before {
+    width: 150vmin;
+    height: 150vmin;
+  }
+}
+
+@keyframes drift-star {
+  0%, 100% { transform: translate(0%, -12%); }
+  20% { transform: translate(7%, 9.7%); }
+  40% { transform: translate(-11.4%, -3.7%); }
+  60% { transform: translate(11.4%, -3.7%); }
+  80% { transform: translate(-7%, 9.7%); }
+}
+
+@keyframes bd-in {
+  from {
+    opacity: 0;
+  }
+}
+
+
 .card {
+  position: relative;
   width: min(680px, 100%);
   max-height: calc(100svh - 32px);
   overflow-y: auto;
@@ -704,9 +821,14 @@ main {
     align-items: flex-start;
   }
 
+  .me {
+    flex-wrap: wrap;
+  }
+
   .role {
-    display: block;
-    margin: 5px 0 0 17px;
+    flex-basis: 100%;
+    margin: 5px 0 0 20px;
+    transform: none;
   }
 
   .top nav {
