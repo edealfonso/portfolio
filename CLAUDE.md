@@ -33,7 +33,8 @@ Portfolio personal de una sola pantalla. Next.js (App Router) + Sanity, pensado 
 
 ## Servicios
 
-- **Sanity:** proyecto "Portfolio", ID `kumaz2g0`, dataset público `production`. CORS permitido para `localhost:3000` y `localhost:3210`.
+- **Sanity:** proyecto "Portfolio", ID `kumaz2g0`, dataset público `production`. CORS permitido para `localhost:3000`, `localhost:3210` y `https://elsadealfonso.vercel.app`.
+- **Vercel:** proyecto `portfolio`, publicado en https://elsadealfonso.vercel.app y conectado al repo público `edealfonso/portfolio`: cada push a `main` se publica solo. `vercel.json` fija el framework a Next.js porque Vercel lo detectaba como Sanity Studio (por `sanity.cli.ts`) y el build fallaba.
 - **Formulario de contacto:** Web3Forms, envío desde el cliente. La clave va en `NEXT_PUBLIC_WEB3FORMS_KEY`; sin ella el botón de enviar queda desactivado.
 - Variables en `.env.local` (plantilla en `.env.local.example`).
 
@@ -49,5 +50,4 @@ Portfolio personal de una sola pantalla. Next.js (App Router) + Sanity, pensado 
 2. Los 7 primeros proyectos y el About están en Sanity (importados desde `sanity/seed.ndjson`; a partir de ahora se editan en `/studio`, reimportar el seed pisaría los cambios). Falta que Elsa revise los textos y añada más proyectos.
 3. Subir vídeos o capturas, foto y CV desde `/studio`, y probar la ventana de cursor con medios reales.
 4. Probar el filtro en móvil.
-5. Añadir el dominio de producción a CORS de Sanity y publicar en Vercel.
-6. Aún no hay ningún commit.
+5. Si hay dominio propio: añadirlo en Vercel y a CORS de Sanity.
