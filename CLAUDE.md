@@ -55,9 +55,9 @@ Portfolio personal de una sola pantalla. Next.js (App Router) + Sanity, pensado 
 - Case Study: campo opcional de texto rico en cada proyecto, solo para uso propio (la web no lo lee). Cargado en Nemuru; el resto los carga Claude cuando Elsa pase las notas, ella lo hará cuando pueda (no insistir).
 - Ocultar un proyecto: **Unpublish** en el Studio (pasa a borrador y la web no lo muestra); **Publish** lo devuelve.
 - CV del About: `CV 26 fs2 - sin datos comprometidos.pdf` (sin teléfono, subido por Elsa el 13-nov-2026).
+- Móvil: al filtrar la página vuelve arriba (scroll suave) y el header lleva un degradado de fondo para que la lista no se solape al hacer scroll. Filtro y títulos largos probados por Elsa el 13-nov-2026.
 - Favicon: el punto naranja (`app/icon.svg`, `favicon.ico`, `apple-icon.png`).
 
 ## Pendiente
 
-1. Probar el filtro y los títulos largos (Madri+D, No és culpa meva) en móvil.
-2. Si hay dominio propio: añadirlo en Vercel y a CORS de Sanity.
+1. Si hay dominio propio: añadirlo en Vercel y a CORS de Sanity.
