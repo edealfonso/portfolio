@@ -25,6 +25,13 @@ export default defineConfig({
               S,
               context,
             }),
+            S.listItem()
+              .title("Technologies")
+              .child(
+                S.documentTypeList("technology")
+                  .title("Technologies")
+                  .defaultOrdering([{ field: "name", direction: "asc" }]),
+              ),
             // About is a single document with a fixed id.
             S.listItem()
               .title("About")

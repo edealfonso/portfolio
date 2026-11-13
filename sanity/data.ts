@@ -30,7 +30,10 @@ export type SiteData = { projects: Project[]; about: About };
 
 const query = `{
   "projects": *[_type == "project"] | order(orderRank asc, _createdAt desc) {
-    _id, title, year, kind, keyTech, stack, summary, role, url, companyUrl,
+    _id, title, year, kind, summary, role, url, companyUrl,
+    // Technologies are shared documents; the old free-text tags are the fallback.
+    "keyTech": coalesce(keyTechnologies[]->name, keyTech),
+    "stack": coalesce(technologies[]->name, stack),
     "video": video.asset->url,
     "image": image.asset->url
   },

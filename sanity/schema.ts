@@ -1,4 +1,7 @@
-import { orderRankField, orderRankOrdering } from "@sanity/orderable-document-list";
+import {
+  orderRankField,
+  orderRankOrdering,
+} from "@sanity/orderable-document-list";
 import { defineField, defineType } from "sanity";
 
 export const project = defineType({
@@ -33,21 +36,33 @@ export const project = defineType({
       },
     }),
     defineField({
-      name: "keyTech",
+      name: "keyTechnologies",
       title: "Key technologies",
-      description: "The 2–3 shown on hover.",
+      description:
+        "The 2–3 shown on hover. Pick from the list; create a new one only if it does not exist yet.",
       type: "array",
-      of: [{ type: "string" }],
-      options: { layout: "tags" },
+      of: [{ type: "reference", to: [{ type: "technology" }] }],
       validation: (r) => r.max(3),
     }),
     defineField({
-      name: "stack",
+      name: "technologies",
       title: "Full stack",
-      description: "Everything, shown in the popup.",
+      description: "Everything, shown in the popup. Pick from the list.",
+      type: "array",
+      of: [{ type: "reference", to: [{ type: "technology" }] }],
+    }),
+    // Old free-text tags, kept hidden as a backup until the migration is checked.
+    defineField({
+      name: "keyTech",
       type: "array",
       of: [{ type: "string" }],
-      options: { layout: "tags" },
+      hidden: true,
+    }),
+    defineField({
+      name: "stack",
+      type: "array",
+      of: [{ type: "string" }],
+      hidden: true,
     }),
     defineField({
       name: "summary",
@@ -81,7 +96,8 @@ export const project = defineType({
     defineField({
       name: "url",
       title: "Link to the result",
-      description: 'Shown as "Visit site". Only when what people see is my work.',
+      description:
+        'Shown as "Visit site". Only when what people see is my work.',
       type: "url",
     }),
     defineField({
@@ -100,7 +116,8 @@ export const project = defineType({
     defineField({
       name: "image",
       title: "Screenshot",
-      description: "Without video or screenshot the site shows a blurred placeholder.",
+      description:
+        "Without video or screenshot the site shows a blurred placeholder.",
       type: "image",
     }),
   ],
@@ -128,4 +145,34 @@ export const about = defineType({
   preview: { prepare: () => ({ title: "About" }) },
 });
 
-export const schemaTypes = [project, about];
+/** One entry per technology, so "Swiper" and "Swiper.js" can never both exist. */
+export const technology = defineType({
+  name: "technology",
+  title: "Technology",
+  type: "document",
+  fields: [
+    defineField({
+      name: "name",
+      type: "string",
+      description:
+        "Exactly as it should read on the site (e.g. Swiper.js, Next.js).",
+      validation: (r) =>
+        r.required().custom(async (name, context) => {
+          if (!name) return true;
+          const client = context.getClient({ apiVersion: "2024-01-01" });
+          const id = (context.document?._id ?? "").replace(/^drafts\./, "");
+          const clash = await client.fetch<number>(
+            `count(*[_type == "technology" && lower(name) == lower($name) && !(_id in [$id, "drafts." + $id])])`,
+            { name, id },
+          );
+          return clash ? "A technology with this name already exists." : true;
+        }),
+    }),
+  ],
+  orderings: [
+    { title: "Name", name: "name", by: [{ field: "name", direction: "asc" }] },
+  ],
+  preview: { select: { title: "name" } },
+});
+
+export const schemaTypes = [project, technology, about];
