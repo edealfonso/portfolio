@@ -15,7 +15,11 @@ export const project = defineType({
       type: "number",
       description: "Position in the list. Lower numbers come first.",
     }),
-    defineField({ name: "year", type: "number" }),
+    defineField({
+      name: "year",
+      description: 'A year ("2024") or a range ("2022–2024").',
+      type: "string",
+    }),
     defineField({
       name: "kind",
       title: "Type",

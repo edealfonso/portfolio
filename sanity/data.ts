@@ -5,7 +5,7 @@ import { apiVersion, dataset, isConfigured, projectId } from "./env";
 export type Project = {
   _id: string;
   title: string;
-  year?: number;
+  year?: string;
   kind?: "website" | "platform" | "contribution";
   keyTech?: string[];
   stack?: string[];
@@ -51,7 +51,7 @@ const sample: SiteData = {
   ].map(([title, year, keyTech], i) => ({
     _id: `sample-${i}`,
     title: title as string,
-    year: year as number,
+    year: String(year),
     keyTech: keyTech as string[],
     stack: [...(keyTech as string[]), "TypeScript", "Vercel"],
     summary: "A sentence or two about the project and what made it special.",
