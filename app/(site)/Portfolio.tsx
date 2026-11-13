@@ -46,6 +46,8 @@ export default function Portfolio({
     setFilter(tech);
     setOpen(false);
     setActive(-1);
+    // The list is shorter now: go back to the top so it isn't left out of view.
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   const stageRef = useRef<HTMLDivElement>(null);
