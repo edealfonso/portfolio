@@ -517,6 +517,7 @@ main {
 }
 
 .chips button {
+  font-size: 11px;
   padding: 8px 11px;
   text-transform: inherit;
   letter-spacing: inherit;
