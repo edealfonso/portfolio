@@ -35,7 +35,7 @@ Portfolio personal de una sola pantalla. Next.js (App Router) + Sanity, pensado 
 
 - **Sanity:** proyecto "Portfolio", ID `kumaz2g0`, dataset público `production`. CORS permitido para `localhost:3000`, `localhost:3210` y `https://elsadealfonso.vercel.app`.
 - **Vercel:** proyecto `portfolio`, publicado en https://elsadealfonso.vercel.app y conectado al repo público `edealfonso/portfolio`: cada push a `main` se publica solo. `vercel.json` fija el framework a Next.js porque Vercel lo detectaba como Sanity Studio (por `sanity.cli.ts`) y el build fallaba.
-- **Formulario de contacto:** Web3Forms, envío desde el cliente. La clave va en `NEXT_PUBLIC_WEB3FORMS_KEY`; sin ella el botón de enviar queda desactivado.
+- **Formulario de contacto:** Web3Forms, envío desde el cliente. La clave va en `NEXT_PUBLIC_WEB3FORMS_KEY` (en `.env.local` y en Vercel como valor público, tipo Config); sin ella el botón de enviar queda desactivado. Los mensajes llegan al Gmail de Elsa.
 - Variables en `.env.local` (plantilla en `.env.local.example`).
 
 ## Comandos
@@ -46,7 +46,7 @@ Portfolio personal de una sola pantalla. Next.js (App Router) + Sanity, pensado 
 
 ## Pendiente
 
-1. Clave de Web3Forms (la pide Elsa con su Gmail) y probar un envío real.
+1. Probar un envío real del formulario desde la web publicada (la clave de Web3Forms ya está en `.env.local` y en Vercel).
 2. Los 7 primeros proyectos y el About están en Sanity (importados desde `sanity/seed.ndjson`; a partir de ahora se editan en `/studio`, reimportar el seed pisaría los cambios). Falta que Elsa revise los textos y añada más proyectos.
 3. Subir vídeos o capturas, foto y CV desde `/studio`, y probar la ventana de cursor con medios reales.
 4. Probar el filtro en móvil.
