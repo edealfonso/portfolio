@@ -1,4 +1,4 @@
-import { cacheLife } from "next/cache";
+import { cacheLife, cacheTag } from "next/cache";
 import { createClient } from "next-sanity";
 import { apiVersion, dataset, isConfigured, projectId } from "./env";
 
@@ -75,10 +75,17 @@ const sample: SiteData = {
 export async function getSiteData(): Promise<SiteData> {
   "use cache";
   cacheLife("minutes");
+  // Sanity calls /api/revalidate on every publish, which refreshes this tag.
+  cacheTag("site");
 
   if (!isConfigured) return sample;
 
-  const client = createClient({ projectId, dataset, apiVersion, useCdn: true });
+  const client = createClient({
+    projectId,
+    dataset,
+    apiVersion,
+    useCdn: false,
+  });
   const data = await client.fetch<{ projects: Project[]; about: About | null }>(
     query,
   );
