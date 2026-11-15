@@ -526,7 +526,10 @@ body.modal-open .stage {
   }
 }
 
+/* Each leg eases in and out, so the movement slows down at every point of the
+   star instead of turning abruptly. */
 @keyframes drift-star {
+  0%, 20%, 40%, 60%, 80% { animation-timing-function: cubic-bezier(0.37, 0, 0.63, 1); }
   0%, 100% { transform: translate(0%, -12%); }
   20% { transform: translate(7%, 9.7%); }
   40% { transform: translate(-11.4%, -3.7%); }

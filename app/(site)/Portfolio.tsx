@@ -91,14 +91,14 @@ export default function Portfolio({
       const k = Math.min((now - (prev || now)) / 16.67, 3);
       prev = now;
       const max = window.innerWidth * 0.04;
-      const fade = Math.pow(0.985, k);
-      const follow = 1 - Math.pow(1 - 0.025, k); // slow scrub
+      const fade = Math.pow(0.992, k);
+      const follow = 1 - Math.pow(1 - 0.006, k); // very slow scrub, lots of inertia
       for (const axis of ["x", "y"] as const) {
         nudge[axis] = Math.max(-max, Math.min(max, nudge[axis] * fade));
         o[axis] += (lean[axis] + nudge[axis] - o[axis]) * follow;
       }
-      energy *= Math.pow(0.985, k);
-      rate += (1 + energy * 2.5 - rate) * follow;
+      energy *= Math.pow(0.992, k);
+      rate += (1 + energy * 2 - rate) * follow;
       push.style.transform = `translate3d(${o.x}px, ${o.y}px, 0)`;
       const a = star();
       if (a) a.playbackRate = rate;
@@ -132,9 +132,9 @@ export default function Portfolio({
       last.y = e.clientY;
       last.t = now;
       lean.x =
-        -(e.clientX / window.innerWidth - 0.5) * window.innerWidth * 0.03;
+        -(e.clientX / window.innerWidth - 0.5) * window.innerWidth * 0.035;
       lean.y =
-        -(e.clientY / window.innerHeight - 0.5) * window.innerHeight * 0.03;
+        -(e.clientY / window.innerHeight - 0.5) * window.innerHeight * 0.035;
       if (!frame) frame = requestAnimationFrame(tick);
     };
 
