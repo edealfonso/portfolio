@@ -924,7 +924,22 @@ body.modal-open .stage {
     animation-delay: calc(var(--i) * 90ms + 600ms);
   }
 
+  /* The whole popup scrolls (not the box inside it), so the text never gets
+     cut by the rounded corners: you only reach the bottom edge at the end. */
+  .veil {
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+
+  .veil::before,
+  .backdrop {
+    position: fixed;
+  }
+
   .card {
+    max-height: none;
+    margin: auto;
+    overflow: visible;
     padding: 26px 22px;
   }
 
