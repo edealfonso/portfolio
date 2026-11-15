@@ -841,7 +841,7 @@ body.modal-open .stage {
     grid-template-areas:
       "idx ttl thumb"
       ".   tech thumb";
-    gap: 6px 12px;
+    gap: 10px 12px;
     padding: 14px 0;
   }
 
@@ -857,20 +857,36 @@ body.modal-open .stage {
     display: none;
   }
 
+  /* One line, two tags at most, "…" if they do not fit. The negative margin
+     gives the tags a taller touch area without moving the layout. */
   .tech {
     grid-area: tech;
+    display: block;
     opacity: 1;
     transform: none;
-    flex-wrap: wrap;
-    margin-left: -8px;
-    white-space: normal;
+    min-width: 0;
+    margin-block: -6px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
     color: var(--mute);
     animation: fade 0.8s ease both;
     animation-delay: calc(var(--i) * 90ms + 600ms);
   }
 
   .tech button {
+    padding: 6px 0;
     pointer-events: auto;
+  }
+
+  .tech button:nth-child(n + 3) {
+    display: none;
+  }
+
+  .tech button + button::before {
+    content: "·";
+    padding: 0 8px;
+    color: var(--mute);
   }
 
   .row.on .ttl {
@@ -880,7 +896,8 @@ body.modal-open .stage {
   .thumb {
     display: block;
     grid-area: thumb;
-    align-self: center;
+    align-self: start;
+    margin-top: 4px;
     width: 96px;
     aspect-ratio: 16 / 9;
     object-fit: cover;
