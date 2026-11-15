@@ -456,7 +456,7 @@ function Close({
 }) {
   return (
     <button className={`x mono${dock ? " x-dock" : ""}`} onClick={onClose}>
-      Close ✕
+      Close <span className="cross">✕</span>
     </button>
   );
 }
