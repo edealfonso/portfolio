@@ -90,7 +90,7 @@ export default function Portfolio({
     const tick = (now: number) => {
       const k = Math.min((now - (prev || now)) / 16.67, 3);
       prev = now;
-      const max = window.innerWidth * 0.04;
+      const max = window.innerWidth * 0.055;
       const fade = Math.pow(0.992, k);
       const follow = 1 - Math.pow(1 - 0.006, k); // very slow scrub, lots of inertia
       for (const axis of ["x", "y"] as const) {
@@ -123,7 +123,7 @@ export default function Portfolio({
         const dy = e.clientY - last.y;
         const speed = Math.hypot(dx, dy) / dt; // px per ms
         const gain = 0.4 * (1 + Math.min(speed, 4));
-        const max = window.innerWidth * 0.04;
+        const max = window.innerWidth * 0.055;
         nudge.x = Math.max(-max, Math.min(max, nudge.x + dx * gain));
         nudge.y = Math.max(-max, Math.min(max, nudge.y + dy * gain));
         energy = Math.min(energy + Math.min(speed, 5) * 0.03, 1);
@@ -132,9 +132,9 @@ export default function Portfolio({
       last.y = e.clientY;
       last.t = now;
       lean.x =
-        -(e.clientX / window.innerWidth - 0.5) * window.innerWidth * 0.035;
+        -(e.clientX / window.innerWidth - 0.5) * window.innerWidth * 0.05;
       lean.y =
-        -(e.clientY / window.innerHeight - 0.5) * window.innerHeight * 0.035;
+        -(e.clientY / window.innerHeight - 0.5) * window.innerHeight * 0.05;
       if (!frame) frame = requestAnimationFrame(tick);
     };
 
