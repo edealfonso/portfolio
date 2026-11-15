@@ -46,10 +46,10 @@ Portfolio personal de una sola pantalla. Next.js (App Router) + Sanity, pensado 
 
 ## Contenido (estado a 13-nov-2026)
 
-- 13 proyectos y el About viven en Sanity y se editan en `/studio` (entrar con **Google**, no con GitHub). `sanity/seed.ndjson` es solo la foto inicial: **no reimportarlo**, pisaría las ediciones. Orden: GeoCool-In, Nemuru, Synth Dreams, Shyla, VIT, Prewaste, Dinàmica, Live Unfinished, QFactory, No és culpa meva, Madri+D, Barabási Lab, CEE Label (añadido el último; sin link mientras su web no funcione, solo captura, sin vídeo todavía).
+- 13 proyectos y el About viven en Sanity y se editan en `/studio` (entrar con **Google**, no con GitHub). `sanity/seed.ndjson` es solo la foto inicial: **no reimportarlo**, pisaría las ediciones. Orden: GeoCool-In, Nemuru, Synth Dreams, Shyla, VIT, Prewaste, Dinàmica, Live Unfinished, QFactory, No és culpa meva, Madri+D, Barabási Lab, CEE Label.
 - `year` es texto (admite rangos como "2022–2024"). Cada proyecto tiene `kind` (website, platform o contribution).
 - Textos: breves, técnicos pero cercanos, en inglés. Donde Elsa no hizo el 100 % se anota el porcentaje (Barabási 90 %, Unfinished 85 %, No és culpa meva 80 %, la Mochila de Madri+D 95 %).
-- Medios: marco 16:9 que recorta por abajo. Vídeos sin audio, 960 px de ancho, 24 fps, de pocos MB; Elsa los graba y se revisa que no salgan datos personales ni avisos (cookies, barra de Wayback). GeoCool-In, Nemuru, Madri+D y No és culpa meva usan imagen (logo o captura) en vez de vídeo. GeoCool-In no tiene link ni vídeo mientras se corrige su web.
+- Medios: marco 16:9 que recorta por abajo. Vídeos sin audio, 960 px de ancho, 24 fps, de pocos MB; Elsa los graba y se revisa que no salgan datos personales ni avisos (cookies, barra de Wayback). GeoCool-In, Nemuru, Madri+D y No és culpa meva usan imagen (logo o captura) en vez de vídeo.
 - Imagen del fondo del popup: campo opcional `backdropImage` («Backdrop image») en cada proyecto; si no hay, se usa la captura (`image`).
 - Galería: campo opcional `gallery` (varias imágenes por proyecto, aparte de la captura y el vídeo), solo para uso propio como el Case Study: la web no lo lee.
 - Capturas: todos los proyectos tienen imagen (JPEG de 1600 px, las de las webs sacadas de `.../images/usados` en Dropbox). Los vídeos de QFactory y Synth Dreams van acelerados 3x.
