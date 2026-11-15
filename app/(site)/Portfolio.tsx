@@ -414,7 +414,7 @@ function ProjectCard({
         <span className="card-links mono">
           {p.url && (
             <a href={p.url} target="_blank" rel="noreferrer">
-              Visit site ↗
+              {p.urlType === "archived" ? "View archived site" : "Visit site"} ↗
             </a>
           )}
           {p.companyUrl && (

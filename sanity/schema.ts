@@ -101,6 +101,22 @@ export const project = defineType({
       type: "url",
     }),
     defineField({
+      name: "urlType",
+      title: "Link type",
+      description:
+        'Choose "Archived site" when the link points to an archived copy (e.g. Wayback Machine): the button reads "View archived site".',
+      type: "string",
+      options: {
+        list: [
+          { title: "Live site", value: "live" },
+          { title: "Archived site", value: "archived" },
+        ],
+        layout: "radio",
+      },
+      initialValue: "live",
+      hidden: ({ document }) => !document?.url,
+    }),
+    defineField({
       name: "companyUrl",
       title: "Link to the company",
       description:
