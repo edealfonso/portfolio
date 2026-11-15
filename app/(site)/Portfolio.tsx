@@ -555,7 +555,10 @@ function AboutCard({ about, onClose }: { about: About; onClose: () => void }) {
         )}
         <div>
           {about.heading && <h2>{about.heading}</h2>}
-          {about.bio && <p>{about.bio}</p>}
+          {about.bio
+            ?.split(/\n+/)
+            .filter((line) => line.trim())
+            .map((line, i) => <p key={i}>{line}</p>)}
         </div>
       </div>
       <div className="links mono">

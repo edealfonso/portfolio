@@ -633,8 +633,8 @@ body.modal-open .stage {
   line-height: 1.6;
 }
 
-.about p {
-  white-space: pre-line;
+.about p + p {
+  margin-top: 12px;
 }
 
 .chips {
