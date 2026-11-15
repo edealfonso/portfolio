@@ -120,6 +120,13 @@ export const project = defineType({
         "Without video or screenshot the site shows a blurred placeholder.",
       type: "image",
     }),
+    defineField({
+      name: "backdropImage",
+      title: "Backdrop image",
+      description:
+        "Blurred image behind the project popup. Optional: without it the screenshot is used.",
+      type: "image",
+    }),
   ],
   orderings: [orderRankOrdering],
   preview: { select: { title: "title", subtitle: "year", media: "image" } },

@@ -50,6 +50,7 @@ Portfolio personal de una sola pantalla. Next.js (App Router) + Sanity, pensado 
 - `year` es texto (admite rangos como "2022–2024"). Cada proyecto tiene `kind` (website, platform o contribution).
 - Textos: breves, técnicos pero cercanos, en inglés. Donde Elsa no hizo el 100 % se anota el porcentaje (Barabási 90 %, Unfinished 85 %, No és culpa meva 80 %, la Mochila de Madri+D 95 %).
 - Medios: marco 16:9 que recorta por abajo. Vídeos sin audio, 960 px de ancho, 24 fps, de pocos MB; Elsa los graba y se revisa que no salgan datos personales ni avisos (cookies, barra de Wayback). GeoCool-In, Nemuru, Madri+D y No és culpa meva usan imagen (logo o captura) en vez de vídeo. GeoCool-In no tiene link ni vídeo mientras se corrige su web.
+- Imagen del fondo del popup: campo opcional `backdropImage` («Backdrop image») en cada proyecto; si no hay, se usa la captura (`image`).
 - Capturas: todos los proyectos tienen imagen (JPEG de 1600 px, las de las webs sacadas de `.../images/usados` en Dropbox). Los vídeos de QFactory y Synth Dreams van acelerados 3x.
 - Orden de proyectos: se arrastra en la lista "Projects" del Studio (plugin `@sanity/orderable-document-list`, campo oculto `orderRank`; ya no existe `order`).
 - Case Study: campo opcional de texto rico en cada proyecto, solo para uso propio (la web no lo lee). Cargado en Nemuru; el resto los carga Claude cuando Elsa pase las notas, ella lo hará cuando pueda (no insistir).

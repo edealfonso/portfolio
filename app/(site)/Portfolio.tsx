@@ -122,9 +122,12 @@ export default function Portfolio({
     return () => document.body.classList.remove("modal-open");
   }, [open]);
 
-  // Media shown (blurred) behind the popup: a project's screenshot, or the orb.
+  // Media shown (blurred) behind the popup: a project's backdrop image (or its
+  // screenshot if it has none), or the orb.
+  const backdropProject =
+    panel?.kind === "project" ? projects[panel.index] : undefined;
   const backdropImage =
-    panel?.kind === "project" ? projects[panel.index]?.image : undefined;
+    backdropProject?.backdropImage ?? backdropProject?.image;
   const orbOn = panel?.kind === "about" || panel?.kind === "contact";
 
   return (

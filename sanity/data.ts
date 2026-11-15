@@ -15,6 +15,7 @@ export type Project = {
   companyUrl?: string;
   video?: string;
   image?: string;
+  backdropImage?: string;
 };
 
 export type About = {
@@ -35,7 +36,8 @@ const query = `{
     "keyTech": coalesce(keyTechnologies[]->name, keyTech),
     "stack": coalesce(technologies[]->name, stack),
     "video": video.asset->url,
-    "image": image.asset->url
+    "image": image.asset->url,
+    "backdropImage": backdropImage.asset->url
   },
   "about": *[_type == "about"][0] {
     heading, bio, github, linkedin,
