@@ -467,6 +467,13 @@ body.modal-open .stage {
   transition: opacity 0.8s ease;
 }
 
+/* Moved by JavaScript: the backdrop reacts to the mouse (see Portfolio.tsx). */
+.push {
+  position: absolute;
+  inset: 0;
+  will-change: transform;
+}
+
 /* Very slow five-point star (pentagram) path. */
 .drift {
   position: absolute;

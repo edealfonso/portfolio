@@ -49,6 +49,8 @@ export default function Portfolio({
   };
 
   const stageRef = useRef<HTMLDivElement>(null);
+  const pushRef = useRef<HTMLDivElement>(null);
+  const driftRef = useRef<HTMLDivElement>(null);
   const videoRefs = useRef<(HTMLVideoElement | null)[]>([]);
 
   const show = (p: Panel) => {
@@ -57,6 +59,94 @@ export default function Portfolio({
     setActive(-1);
   };
   const close = () => setOpen(false);
+
+  // The popup backdrop reacts to the mouse, slowly and without bounce: it leans
+  // gently towards the cursor, is nudged in the direction of fast moves, and
+  // the star drift speeds up a little while the mouse is moving. Everything
+  // scrubs towards its target with a slow ease.
+  useEffect(() => {
+    if (!open) return;
+    const push = pushRef.current;
+    const drift = driftRef.current;
+    if (!push || !drift) return;
+    if (!window.matchMedia("(hover: hover) and (pointer: fine)").matches)
+      return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+    const o = { x: 0, y: 0 }; // current offset in px
+    const lean = { x: 0, y: 0 }; // pull towards the cursor
+    const nudge = { x: 0, y: 0 }; // push from mouse speed, fades out by itself
+    const last = { x: 0, y: 0, t: 0 };
+    let energy = 0; // target for the drift speed-up
+    let rate = 1;
+    let frame = 0;
+    let prev = 0;
+
+    const star = () =>
+      drift
+        .getAnimations()
+        .find((a) => (a as CSSAnimation).animationName === "drift-star");
+
+    const tick = (now: number) => {
+      const k = Math.min((now - (prev || now)) / 16.67, 3);
+      prev = now;
+      const max = window.innerWidth * 0.04;
+      const fade = Math.pow(0.985, k);
+      const follow = 1 - Math.pow(1 - 0.025, k); // slow scrub
+      for (const axis of ["x", "y"] as const) {
+        nudge[axis] = Math.max(-max, Math.min(max, nudge[axis] * fade));
+        o[axis] += (lean[axis] + nudge[axis] - o[axis]) * follow;
+      }
+      energy *= Math.pow(0.985, k);
+      rate += (1 + energy * 2.5 - rate) * follow;
+      push.style.transform = `translate3d(${o.x}px, ${o.y}px, 0)`;
+      const a = star();
+      if (a) a.playbackRate = rate;
+      const rest =
+        energy < 0.01 &&
+        Math.abs(rate - 1) < 0.01 &&
+        Math.abs(nudge.x) + Math.abs(nudge.y) < 0.1 &&
+        Math.abs(lean.x + nudge.x - o.x) + Math.abs(lean.y + nudge.y - o.y) <
+          0.1;
+      if (rest) {
+        frame = 0;
+        prev = 0;
+        if (a) a.playbackRate = 1;
+      } else frame = requestAnimationFrame(tick);
+    };
+
+    const onMove = (e: MouseEvent) => {
+      const now = performance.now();
+      if (last.t) {
+        const dt = Math.max(now - last.t, 8);
+        const dx = e.clientX - last.x;
+        const dy = e.clientY - last.y;
+        const speed = Math.hypot(dx, dy) / dt; // px per ms
+        const gain = 0.4 * (1 + Math.min(speed, 4));
+        const max = window.innerWidth * 0.04;
+        nudge.x = Math.max(-max, Math.min(max, nudge.x + dx * gain));
+        nudge.y = Math.max(-max, Math.min(max, nudge.y + dy * gain));
+        energy = Math.min(energy + Math.min(speed, 5) * 0.03, 1);
+      }
+      last.x = e.clientX;
+      last.y = e.clientY;
+      last.t = now;
+      lean.x =
+        -(e.clientX / window.innerWidth - 0.5) * window.innerWidth * 0.03;
+      lean.y =
+        -(e.clientY / window.innerHeight - 0.5) * window.innerHeight * 0.03;
+      if (!frame) frame = requestAnimationFrame(tick);
+    };
+
+    window.addEventListener("mousemove", onMove);
+    return () => {
+      window.removeEventListener("mousemove", onMove);
+      cancelAnimationFrame(frame);
+      push.style.transform = "";
+      const a = star();
+      if (a) a.playbackRate = 1;
+    };
+  }, [open]);
 
   // The preview window eases towards the cursor.
   useEffect(() => {
@@ -248,16 +338,18 @@ export default function Portfolio({
           className={`backdrop${backdropImage || orbOn ? " on" : ""}`}
           aria-hidden
         >
-          <div className="drift">
-            {backdropImage && (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img
-                key={panel?.kind === "project" ? panel.index : 0}
-                src={sized(backdropImage, 1200)}
-                alt=""
-              />
-            )}
-            <span className={`orb${orbOn ? " on" : ""}`} />
+          <div className="push" ref={pushRef}>
+            <div className="drift" ref={driftRef}>
+              {backdropImage && (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img
+                  key={panel?.kind === "project" ? panel.index : 0}
+                  src={sized(backdropImage, 1200)}
+                  alt=""
+                />
+              )}
+              <span className={`orb${orbOn ? " on" : ""}`} />
+            </div>
           </div>
         </div>
         {panel && (
