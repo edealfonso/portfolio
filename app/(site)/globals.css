@@ -698,6 +698,11 @@ body.modal-open .stage {
   color: var(--ink);
 }
 
+/* Floating Close for touch screens; desktop keeps the one in the footer. */
+.dock-close {
+  display: none;
+}
+
 /* about */
 
 .about {
@@ -921,6 +926,33 @@ body.modal-open .stage {
 
   .card {
     padding: 26px 22px;
+  }
+
+  .card footer {
+    margin-top: 28px;
+  }
+
+  .card .x:not(.x-dock) {
+    display: none;
+  }
+
+  .dock-close {
+    position: sticky;
+    bottom: 6px;
+    display: flex;
+    justify-content: center;
+    height: 48px;
+    margin-top: 12px;
+    pointer-events: none;
+  }
+
+  .x-dock {
+    pointer-events: auto;
+    padding: 14px 26px;
+    color: var(--bg);
+    background: var(--ink);
+    border-radius: 999px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
   }
 
   .card-media {

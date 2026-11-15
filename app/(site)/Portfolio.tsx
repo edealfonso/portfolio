@@ -60,6 +60,19 @@ export default function Portfolio({
   };
   const close = () => setOpen(false);
 
+  // The phone's back gesture closes the popup instead of leaving the site: the
+  // popup gets its own history entry, removed again if it closes another way.
+  useEffect(() => {
+    if (!open) return;
+    window.history.pushState({ popup: true }, "");
+    const onPop = () => setOpen(false);
+    window.addEventListener("popstate", onPop);
+    return () => {
+      window.removeEventListener("popstate", onPop);
+      if (window.history.state?.popup) window.history.back();
+    };
+  }, [open]);
+
   // The popup backdrop reacts to the mouse, slowly and without bounce: it leans
   // gently towards the cursor, is nudged in the direction of fast moves, and
   // the star drift speeds up a little while the mouse is moving. Everything
@@ -374,6 +387,10 @@ export default function Portfolio({
             {panel.kind === "contact" && (
               <ContactCard formKey={formKey} onClose={close} />
             )}
+            {/* Mobile only (see globals.css): a Close that stays in view. */}
+            <div className="dock-close">
+              <Close onClose={close} dock />
+            </div>
           </div>
         )}
       </div>
@@ -430,9 +447,15 @@ const KINDS = {
   contribution: "Platform contribution",
 } as const;
 
-function Close({ onClose }: { onClose: () => void }) {
+function Close({
+  onClose,
+  dock,
+}: {
+  onClose: () => void;
+  dock?: boolean;
+}) {
   return (
-    <button className="x mono" onClick={onClose}>
+    <button className={`x mono${dock ? " x-dock" : ""}`} onClick={onClose}>
       Close ✕
     </button>
   );
