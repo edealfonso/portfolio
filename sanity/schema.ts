@@ -127,6 +127,15 @@ export const project = defineType({
         "Blurred image behind the project popup. Optional: without it the screenshot is used.",
       type: "image",
     }),
+    defineField({
+      name: "gallery",
+      title: "Gallery",
+      description:
+        "Extra images for my own reference, apart from the screenshot and video. Not shown on the site.",
+      type: "array",
+      of: [{ type: "image", options: { hotspot: true } }],
+      options: { layout: "grid" },
+    }),
   ],
   orderings: [orderRankOrdering],
   preview: { select: { title: "title", subtitle: "year", media: "image" } },
