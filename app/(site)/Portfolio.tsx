@@ -679,9 +679,9 @@ function ContactCard({
   return (
     <>
       <div className="mono accent">Contact</div>
-      <h2>{status === "sent" ? "Thank you." : "Say hello."}</h2>
+      <h2>{status === "sent" ? "Thank you." : "Get in touch."}</h2>
       {status === "sent" ? (
-        <p className="note">Your message is on its way. I will reply soon.</p>
+        <p className="note">Your message has been sent. I will reply as soon as possible.</p>
       ) : (
         <form className="form" id="contact" onSubmit={submit}>
           <label className="mono">
@@ -723,7 +723,7 @@ function ContactCard({
               <span className="mono hint">Form key not set yet</span>
             )}
             {status === "error" && (
-              <span className="mono hint">Could not send. Try again.</span>
+              <span className="mono hint">Unable to send. Please try again.</span>
             )}
           </span>
         )}
