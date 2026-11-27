@@ -18,6 +18,7 @@ export const metadata: Metadata = {
     siteName: "Elsa de Alfonso",
     type: "website",
   },
+  twitter: { card: "summary_large_image" },
   robots: { index: true, follow: true },
   verification: {
     google: "LOMflQ9uJp0URV3nG3zyV-0d2vDeOMWkWb0ka4mggPU",

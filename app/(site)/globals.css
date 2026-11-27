@@ -438,27 +438,17 @@ main {
   transition: opacity 0.8s ease;
 }
 
-/* The name stays readable over any popup: a white copy above everything that
-   inverts whatever is behind it. Not clickable; the real one fades out. */
+/* The name stays visible over any popup: a copy above everything, with the
+   header's own colours. Not clickable; the real one fades out. */
 .me-ghost {
   position: fixed;
   top: 0;
   left: 0;
   z-index: 20;
   padding: 22px 4vw;
-  color: #fff;
-  mix-blend-mode: difference;
   pointer-events: none;
   opacity: 0;
   transition: opacity 0.4s ease;
-}
-
-.me-ghost .dot {
-  background: #fff;
-}
-
-.me-ghost .role {
-  color: #fff;
 }
 
 body.modal-open .me-ghost {
