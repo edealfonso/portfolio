@@ -448,19 +448,23 @@ main {
   padding: 22px 4vw;
   pointer-events: none;
   opacity: 0;
-  transition: opacity 0.4s ease;
+  /* Closing: keep the copy until the header has finished un-blurring, then
+     swap instantly (a crossfade of identical text flickers). */
+  transition: opacity 0s 0.6s;
 }
 
 body.modal-open .me-ghost {
   opacity: 1;
+  transition: none;
+}
+
+.top .me {
+  transition: opacity 0s 0.6s;
 }
 
 body.modal-open .top .me {
   opacity: 0;
-}
-
-.top .me {
-  transition: opacity 0.4s ease;
+  transition: none;
 }
 
 /* Step 1 of opening a popup: the page behind blurs. */
