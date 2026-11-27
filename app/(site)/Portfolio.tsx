@@ -11,6 +11,15 @@ const NO_HOVER = "(hover: none), (max-width: 720px)";
 
 const pad = (i: number) => String(i + 1).padStart(2, "0");
 
+// Shareable link for a project: /#nemuru, /#no-es-culpa-meva.
+const slugOf = (title: string) =>
+  title
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-|-$/g, "");
+
 const same = (a: string, b: string) => a.toLowerCase() === b.toLowerCase();
 
 const uses = (p: Project, tech: string) =>
@@ -60,18 +69,63 @@ export default function Portfolio({
   };
   const close = () => setOpen(false);
 
+  // Someone arrives through a shared link (/#nemuru, /#about, /#contact): open
+  // that popup. The address is cleaned first so the popup's own history entry
+  // adds the hash back and closing returns to the bare URL.
+  useEffect(() => {
+    let frame = 0;
+    const openFromHash = () => {
+      const slug = decodeURIComponent(window.location.hash.slice(1));
+      if (!slug) return;
+      let target: Panel | null = null;
+      if (slug === "about") target = { kind: "about" };
+      else if (slug === "contact") target = { kind: "contact" };
+      else {
+        const index = projects.findIndex((p) => slugOf(p.title) === slug);
+        if (index >= 0) target = { kind: "project", index };
+      }
+      if (!target) return;
+      const found = target;
+      cancelAnimationFrame(frame);
+      frame = requestAnimationFrame(() => {
+        window.history.replaceState(null, "", window.location.pathname);
+        show(found);
+      });
+    };
+    openFromHash();
+    // Pasting a link into a tab that already has the site open only changes
+    // the hash, so the page isn't reloaded.
+    window.addEventListener("hashchange", openFromHash);
+    return () => {
+      cancelAnimationFrame(frame);
+      window.removeEventListener("hashchange", openFromHash);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // Every popup puts its name in the address so the link can be shared.
+  const hash = !open || !panel
+    ? ""
+    : panel.kind === "project"
+      ? `#${slugOf(projects[panel.index].title)}`
+      : `#${panel.kind}`;
+
   // The phone's back gesture closes the popup instead of leaving the site: the
   // popup gets its own history entry, removed again if it closes another way.
   useEffect(() => {
     if (!open) return;
-    window.history.pushState({ popup: true }, "");
+    window.history.pushState(
+      { popup: true },
+      "",
+      hash || window.location.pathname + window.location.search,
+    );
     const onPop = () => setOpen(false);
     window.addEventListener("popstate", onPop);
     return () => {
       window.removeEventListener("popstate", onPop);
       if (window.history.state?.popup) window.history.back();
     };
-  }, [open]);
+  }, [open, hash]);
 
   // The popup backdrop reacts to the mouse, slowly and without bounce: it leans
   // gently towards the cursor, is nudged in the direction of fast moves, and
@@ -235,6 +289,13 @@ export default function Portfolio({
 
   return (
     <>
+      {/* Copy of the name that stays visible above popups (see .me-ghost). */}
+      <div className="me me-ghost" aria-hidden>
+        <span className="dot" />
+        Elsa de Alfonso
+        <span className="mono role">Full Stack Software Engineer</span>
+      </div>
+
       <header className="top">
         <div className="me">
           <span className="dot" />
